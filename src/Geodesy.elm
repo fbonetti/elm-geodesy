@@ -1,4 +1,18 @@
-module Geodesy exposing (Coordinate, DegreesMinutesSeconds, Unit(..), distance, decimalDegrees, degreesMinutesSeconds, midpoint, initialBearing, finalBearing, rhumbDistance, rhumbBearing, rhumbMidpoint)
+module Geodesy
+  exposing
+    ( Coordinate
+    , DegreesMinutesSeconds
+    , Unit(..)
+    , distance
+    , decimalDegrees
+    , degreesMinutesSeconds
+    , midpoint
+    , initialBearing
+    , finalBearing
+    , rhumbDistance
+    , rhumbBearing
+    , rhumbMidpoint
+    )
 
 
 type alias Coordinate =
