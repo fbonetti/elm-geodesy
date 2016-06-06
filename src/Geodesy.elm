@@ -182,7 +182,7 @@ distance ( lat1, lon1 ) ( lat2, lon2 ) unit =
     radius * c
 
 
-{-| Gives the initial compass bearing of a great-circle path
+{-| The initial compass bearing of a great-circle path
 -}
 initialBearing : Coordinate -> Coordinate -> Float
 initialBearing ( lat1, lon1 ) ( lat2, lon2 ) =
@@ -205,14 +205,14 @@ initialBearing ( lat1, lon1 ) ( lat2, lon2 ) =
     toDegrees (atan2 y x)
 
 
-{-| Gives the final compass bearing of a great-circle path
+{-| The final compass bearing of a great-circle path
 -}
 finalBearing : Coordinate -> Coordinate -> Float
 finalBearing start destination =
   floatMod ((initialBearing destination start) + 180) 360
 
 
-{-| Half-way point along a great circle path between the two points
+{-| Half-way point along a great circle path
 -}
 midpoint : Coordinate -> Coordinate -> Coordinate
 midpoint ( lat1, lon1 ) ( lat2, lon2 ) =
