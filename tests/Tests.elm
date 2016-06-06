@@ -10,12 +10,12 @@ import Geodesy exposing (..)
 chicagoToNycTests : List Test
 chicagoToNycTests =
   [ test "Distance from Chicago to NYC" (assertEqual 1144.2995483233492 distanceChicagoToNyc)
-  , test "Midpoint from Chicago to NYC" (assertEqual ( 41.49677823440974, -80.75671256248268 ) midpointFromChicagoToNyc)
   , test "Initial bearing from Chicago to NYC" (assertEqual 91.95668081107792 initialBearingFromChicagoToNyc)
   , test "Final bearing from Chicago to NYC" (assertEqual 100.97208853162614 finalBearingFromChicagoToNyc)
+  , test "Midpoint from Chicago to NYC" (assertEqual ( 41.49677823440974, -80.75671256248268 ) midpointFromChicagoToNyc)
   , test "Rhumb line distance from Chicago to NYC" (assertEqual 1145.4782975112635 rhumbDistanceChicagoToNyc)
-  , test "Rhumb midpoint from Chicago to NYC" (assertEqual ( 41.295449999999995, -80.78742529339144 ) rhumbMidpointChicagoToNyc)
   , test "Rhumb bearing from Chicago to NYC" (assertEqual 96.49514816731596 rhumbBearingChicagoToNyc)
+  , test "Rhumb midpoint from Chicago to NYC" (assertEqual ( 41.295449999999995, -80.78742529339144 ) rhumbMidpointChicagoToNyc)
   ]
 
 
@@ -34,11 +34,6 @@ distanceChicagoToNyc =
   distance chicago newYork Kilometers
 
 
-midpointFromChicagoToNyc : Coordinate
-midpointFromChicagoToNyc =
-  midpoint chicago newYork
-
-
 initialBearingFromChicagoToNyc : Float
 initialBearingFromChicagoToNyc =
   initialBearing chicago newYork
@@ -48,6 +43,9 @@ finalBearingFromChicagoToNyc : Float
 finalBearingFromChicagoToNyc =
   finalBearing chicago newYork
 
+midpointFromChicagoToNyc : Coordinate
+midpointFromChicagoToNyc =
+  midpoint chicago newYork
 
 rhumbDistanceChicagoToNyc : Float
 rhumbDistanceChicagoToNyc =
@@ -71,12 +69,12 @@ rhumbMidpointChicagoToNyc =
 londonToHongKongTests : List Test
 londonToHongKongTests =
   [ test "Distance from London to Hong Kong" (assertEqual 9597.482581330738 distanceLondonToHongKong)
-  , test "Midpoint from London to Hong Kong" (assertEqual ( 52.90244252102981, 73.85262787435465 ) midpointFromLondonToHongKong)
   , test "Initial bearing from London to Hong Kong" (assertEqual 57.83403659833477 initialBearingFromLondonToHongKong)
   , test "Final bearing from London to Hong Kong" (assertEqual 145.25926589781778 finalBearingFromLondonToHongKong)
+  , test "Midpoint from London to Hong Kong" (assertEqual ( 52.90244252102981, 73.85262787435465 ) midpointFromLondonToHongKong)
   , test "Rhumb line distance from London to Hong Kong" (assertEqual 10407.501859178768 rhumbDistanceLondonToHongKong)
-  , test "Rhumb midpoint from London to Hong Kong" (assertEqual ( 36.9519, 62.68985625326832 ) rhumbMidpointLondonToHongKong)
   , test "Rhumb bearing from London to Hong Kong" (assertEqual 108.12102559904315 rhumbBearingLondonToHongKong)
+  , test "Rhumb midpoint from London to Hong Kong" (assertEqual ( 36.9519, 62.68985625326832 ) rhumbMidpointLondonToHongKong)
   ]
 
 
@@ -95,11 +93,6 @@ distanceLondonToHongKong =
   distance london hongKong Kilometers
 
 
-midpointFromLondonToHongKong : Coordinate
-midpointFromLondonToHongKong =
-  midpoint london hongKong
-
-
 initialBearingFromLondonToHongKong : Float
 initialBearingFromLondonToHongKong =
   initialBearing london hongKong
@@ -108,6 +101,10 @@ initialBearingFromLondonToHongKong =
 finalBearingFromLondonToHongKong : Float
 finalBearingFromLondonToHongKong =
   finalBearing london hongKong
+
+midpointFromLondonToHongKong : Coordinate
+midpointFromLondonToHongKong =
+  midpoint london hongKong
 
 
 rhumbDistanceLondonToHongKong : Float

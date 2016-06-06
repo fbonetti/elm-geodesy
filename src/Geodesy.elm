@@ -3,12 +3,12 @@ module Geodesy
     ( Coordinate
     , DegreesMinutesSeconds
     , Unit(..)
-    , distance
     , decimalDegrees
     , degreesMinutesSeconds
-    , midpoint
+    , distance
     , initialBearing
     , finalBearing
+    , midpoint
     , rhumbDistance
     , rhumbBearing
     , rhumbMidpoint
@@ -49,16 +49,19 @@ earthRadius unit =
 
 -- HELPERS
 
+{- Converts degrees to radians -}
 
 toRadians : Float -> Float
 toRadians num =
   num * pi / 180
 
+{- Converts radians to degrees -}
 
 toDegrees : Float -> Float
 toDegrees num =
   num * 180 / pi
 
+{- Modulo function that works on float instead of ints -}
 
 floatMod : Float -> Float -> Float
 floatMod a b =
@@ -73,6 +76,7 @@ ln : Float -> Float
 ln =
   logBase e
 
+{- Returns false if NaN, +infinity, or -infinity -}
 
 isFinite : Float -> Bool
 isFinite num =
@@ -113,6 +117,7 @@ degreesMinutesSeconds decimal =
 
 -- FUNCTIONS
 
+{- Great-circle distance between two points on a sphere -}
 
 distance : Coordinate -> Coordinate -> Unit -> Float
 distance ( lat1, lon1 ) ( lat2, lon2 ) unit =
@@ -151,6 +156,36 @@ distance ( lat1, lon1 ) ( lat2, lon2 ) unit =
   in
     radius * c
 
+{- Gives the initial compass bearing of a great-circle path -}
+
+initialBearing : Coordinate -> Coordinate -> Float
+initialBearing ( lat1, lon1 ) ( lat2, lon2 ) =
+  let
+    lat1' =
+      toRadians lat1
+
+    lat2' =
+      toRadians lat2
+
+    deltaLon =
+      toRadians (lon2 - lon1)
+
+    y =
+      sin (deltaLon) * cos lat2'
+
+    x =
+      cos lat1' * sin lat2' - sin lat1' * cos lat2' * cos deltaLon
+  in
+    toDegrees (atan2 y x)
+
+{- Gives the final compass bearing of a great-circle path -}
+
+finalBearing : Coordinate -> Coordinate -> Float
+finalBearing start destination =
+  floatMod ((initialBearing destination start) + 180) 360
+
+
+{- Half-way point along a great circle path between the two points -}
 
 midpoint : Coordinate -> Coordinate -> Coordinate
 midpoint ( lat1, lon1 ) ( lat2, lon2 ) =
@@ -191,31 +226,7 @@ midpoint ( lat1, lon1 ) ( lat2, lon2 ) =
     ( toDegrees lat3, lon3' )
 
 
-initialBearing : Coordinate -> Coordinate -> Float
-initialBearing ( lat1, lon1 ) ( lat2, lon2 ) =
-  let
-    lat1' =
-      toRadians lat1
-
-    lat2' =
-      toRadians lat2
-
-    deltaLon =
-      toRadians (lon2 - lon1)
-
-    y =
-      sin (deltaLon) * cos lat2'
-
-    x =
-      cos lat1' * sin lat2' - sin lat1' * cos lat2' * cos deltaLon
-  in
-    toDegrees (atan2 y x)
-
-
-finalBearing : Coordinate -> Coordinate -> Float
-finalBearing start destination =
-  floatMod ((initialBearing destination start) + 180) 360
-
+{- Rhumb line distance between two points -}
 
 rhumbDistance : Coordinate -> Coordinate -> Unit -> Float
 rhumbDistance ( lat1, lon1 ) ( lat2, lon2 ) unit =
@@ -258,6 +269,7 @@ rhumbDistance ( lat1, lon1 ) ( lat2, lon2 ) unit =
   in
     a * radius
 
+{- Constant compass bearing needed to traverse a rhumb line -}
 
 rhumbBearing : Coordinate -> Coordinate -> Float
 rhumbBearing ( lat1, lon1 ) ( lat2, lon2 ) =
@@ -288,6 +300,7 @@ rhumbBearing ( lat1, lon1 ) ( lat2, lon2 ) =
   in
     ((toDegrees theta) + 360) `floatMod` 360
 
+{- Half-way point along a rhumb line -}
 
 rhumbMidpoint : Coordinate -> Coordinate -> Coordinate
 rhumbMidpoint ( lat1, lon1 ) ( lat2, lon2 ) =
