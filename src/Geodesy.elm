@@ -34,18 +34,21 @@ module Geodesy
 
 -- TYPES
 
-{-| Latitude & longitude pair, in decimal degrees -}
 
+{-| Latitude & longitude pair, in decimal degrees
+-}
 type alias Coordinate =
   ( Float, Float )
 
-{-| Representation of degrees in degrees, minutes, and seconds -}
 
+{-| Representation of degrees in degrees, minutes, and seconds
+-}
 type alias DegreesMinutesSeconds =
   ( Int, Int, Float )
 
-{-| Distance can be returned as kilometers, meters, miles, or feet -}
 
+{-| Distance can be returned as kilometers, meters, miles, or feet
+-}
 type Unit
   = Kilometers
   | Meters
@@ -72,55 +75,55 @@ earthRadius unit =
 
 -- HELPERS
 
-{-| Converts degrees to radians -}
 
+{-| Converts degrees to radians
+-}
 toRadians : Float -> Float
 toRadians num =
   num * pi / 180
 
-{-| Converts radians to degrees -}
 
+{-| Converts radians to degrees
+-}
 toDegrees : Float -> Float
 toDegrees num =
   num * 180 / pi
 
-{-| Modulo function that works on float instead of ints -}
 
+{-| Modulo function that works on float instead of ints
+-}
 floatMod : Float -> Float -> Float
 floatMod a b =
   a - (b * (toFloat << floor) (a / b))
 
 
-
-{-| Natural log -}
-
-
+{-| Natural log
+-}
 ln : Float -> Float
 ln =
   logBase e
 
-{-| Returns false if NaN, +infinity, or -infinity -}
 
+{-| Returns false if NaN, +infinity, or -infinity
+-}
 isFinite : Float -> Bool
 isFinite num =
   (not << isNaN) num && (not << isInfinite) num
 
 
+
 -- FUNCTIONS
 
 
-{-| Converts degrees, minutes, and seconds into decimal degrees -}
-
-
+{-| Converts degrees, minutes, and seconds into decimal degrees
+-}
 decimalDegrees : DegreesMinutesSeconds -> Float
 decimalDegrees ( degrees, minutes, seconds ) =
   (toFloat degrees) + ((toFloat minutes) / 60) + (seconds / 3600)
 
 
-
-{-| Converts decimal degrees into degrees, minutes, and seconds -}
-
-
+{-| Converts decimal degrees into degrees, minutes, and seconds
+-}
 degreesMinutesSeconds : Float -> DegreesMinutesSeconds
 degreesMinutesSeconds decimal =
   let
@@ -138,8 +141,9 @@ degreesMinutesSeconds decimal =
   in
     ( degrees, minutes', seconds )
 
-{-| Great-circle distance between two points on a sphere -}
 
+{-| Great-circle distance between two points on a sphere
+-}
 distance : Coordinate -> Coordinate -> Unit -> Float
 distance ( lat1, lon1 ) ( lat2, lon2 ) unit =
   let
@@ -177,8 +181,9 @@ distance ( lat1, lon1 ) ( lat2, lon2 ) unit =
   in
     radius * c
 
-{-| Gives the initial compass bearing of a great-circle path -}
 
+{-| Gives the initial compass bearing of a great-circle path
+-}
 initialBearing : Coordinate -> Coordinate -> Float
 initialBearing ( lat1, lon1 ) ( lat2, lon2 ) =
   let
@@ -199,15 +204,16 @@ initialBearing ( lat1, lon1 ) ( lat2, lon2 ) =
   in
     toDegrees (atan2 y x)
 
-{-| Gives the final compass bearing of a great-circle path -}
 
+{-| Gives the final compass bearing of a great-circle path
+-}
 finalBearing : Coordinate -> Coordinate -> Float
 finalBearing start destination =
   floatMod ((initialBearing destination start) + 180) 360
 
 
-{-| Half-way point along a great circle path between the two points -}
-
+{-| Half-way point along a great circle path between the two points
+-}
 midpoint : Coordinate -> Coordinate -> Coordinate
 midpoint ( lat1, lon1 ) ( lat2, lon2 ) =
   let
@@ -247,8 +253,8 @@ midpoint ( lat1, lon1 ) ( lat2, lon2 ) =
     ( toDegrees lat3, lon3' )
 
 
-{-| Rhumb line distance between two points -}
-
+{-| Rhumb line distance between two points
+-}
 rhumbDistance : Coordinate -> Coordinate -> Unit -> Float
 rhumbDistance ( lat1, lon1 ) ( lat2, lon2 ) unit =
   let
@@ -290,8 +296,9 @@ rhumbDistance ( lat1, lon1 ) ( lat2, lon2 ) unit =
   in
     a * radius
 
-{-| Constant compass bearing needed to traverse a rhumb line -}
 
+{-| Constant compass bearing needed to traverse a rhumb line
+-}
 rhumbBearing : Coordinate -> Coordinate -> Float
 rhumbBearing ( lat1, lon1 ) ( lat2, lon2 ) =
   let
@@ -321,8 +328,9 @@ rhumbBearing ( lat1, lon1 ) ( lat2, lon2 ) =
   in
     ((toDegrees theta) + 360) `floatMod` 360
 
-{-| Half-way point along a rhumb line -}
 
+{-| Half-way point along a rhumb line
+-}
 rhumbMidpoint : Coordinate -> Coordinate -> Coordinate
 rhumbMidpoint ( lat1, lon1 ) ( lat2, lon2 ) =
   let

@@ -43,9 +43,11 @@ finalBearingFromChicagoToNyc : Float
 finalBearingFromChicagoToNyc =
   finalBearing chicago newYork
 
+
 midpointFromChicagoToNyc : Coordinate
 midpointFromChicagoToNyc =
   midpoint chicago newYork
+
 
 rhumbDistanceChicagoToNyc : Float
 rhumbDistanceChicagoToNyc =
@@ -101,6 +103,7 @@ initialBearingFromLondonToHongKong =
 finalBearingFromLondonToHongKong : Float
 finalBearingFromLondonToHongKong =
   finalBearing london hongKong
+
 
 midpointFromLondonToHongKong : Coordinate
 midpointFromLondonToHongKong =
