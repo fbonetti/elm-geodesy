@@ -133,13 +133,13 @@ degreesMinutesSeconds decimal =
     minutes =
       (decimal - (toFloat degrees)) * 60
 
-    minutes' =
+    minutes_ =
       floor minutes
 
     seconds =
-      (minutes - (toFloat minutes')) * 60
+      (minutes - (toFloat minutes_)) * 60
   in
-    ( degrees, minutes', seconds )
+    ( degrees, minutes_, seconds )
 
 
 {-| Great-circle distance between two points on a sphere
@@ -147,32 +147,32 @@ degreesMinutesSeconds decimal =
 distance : Coordinate -> Coordinate -> Unit -> Float
 distance ( lat1, lon1 ) ( lat2, lon2 ) unit =
   let
-    lat1' =
+    lat1_ =
       toRadians lat1
 
-    lat2' =
+    lat2_ =
       toRadians lat2
 
-    lon1' =
+    lon1_ =
       toRadians lon1
 
-    lon2' =
+    lon2_ =
       toRadians lon2
 
     radius =
       earthRadius unit
 
     deltaLat =
-      lat2' - lat1'
+      lat2_ - lat1_
 
     deltaLon =
-      lon2' - lon1'
+      lon2_ - lon1_
 
     a =
       sin (deltaLat / 2)
         * sin (deltaLat / 2)
-        + cos lat1'
-        * cos lat2'
+        + cos lat1_
+        * cos lat2_
         * sin (deltaLon / 2)
         * sin (deltaLon / 2)
 
@@ -187,20 +187,20 @@ distance ( lat1, lon1 ) ( lat2, lon2 ) unit =
 initialBearing : Coordinate -> Coordinate -> Float
 initialBearing ( lat1, lon1 ) ( lat2, lon2 ) =
   let
-    lat1' =
+    lat1_ =
       toRadians lat1
 
-    lat2' =
+    lat2_ =
       toRadians lat2
 
     deltaLon =
       toRadians (lon2 - lon1)
 
     y =
-      sin (deltaLon) * cos lat2'
+      sin (deltaLon) * cos lat2_
 
     x =
-      cos lat1' * sin lat2' - sin lat1' * cos lat2' * cos deltaLon
+      cos lat1_ * sin lat2_ - sin lat1_ * cos lat2_ * cos deltaLon
   in
     toDegrees (atan2 y x)
 
@@ -217,40 +217,40 @@ finalBearing start destination =
 midpoint : Coordinate -> Coordinate -> Coordinate
 midpoint ( lat1, lon1 ) ( lat2, lon2 ) =
   let
-    lat1' =
+    lat1_ =
       toRadians lat1
 
-    lon1' =
+    lon1_ =
       toRadians lon1
 
-    lat2' =
+    lat2_ =
       toRadians lat2
 
     deltaLon =
       toRadians (lon2 - lon1)
 
     bx =
-      cos lat2' * cos deltaLon
+      cos lat2_ * cos deltaLon
 
     by =
-      cos lat2' * sin deltaLon
+      cos lat2_ * sin deltaLon
 
     x =
-      sqrt (((cos lat1') + bx) * ((cos lat1') + bx) + by * by)
+      sqrt (((cos lat1_) + bx) * ((cos lat1_) + bx) + by * by)
 
     y =
-      sin lat1' + sin lat2'
+      sin lat1_ + sin lat2_
 
     lat3 =
       atan2 y x
 
     lon3 =
-      lon1' + (atan2 by (cos lat1' + bx))
+      lon1_ + (atan2 by (cos lat1_ + bx))
 
-    lon3' =
+    lon3_ =
       floatMod ((toDegrees lon3) + 540) 360 - 180
   in
-    ( toDegrees lat3, lon3' )
+    ( toDegrees lat3, lon3_ )
 
 
 {-| Rhumb line distance between two points
@@ -261,19 +261,19 @@ rhumbDistance ( lat1, lon1 ) ( lat2, lon2 ) unit =
     radius =
       earthRadius unit
 
-    lat1' =
+    lat1_ =
       toRadians lat1
 
-    lat2' =
+    lat2_ =
       toRadians lat2
 
     deltaLat =
-      lat2' - lat1'
+      lat2_ - lat1_
 
     deltaLon =
       (toRadians << abs) (lon2 - lon1)
 
-    deltaLon' =
+    deltaLon_ =
       if abs deltaLon > pi then
         if deltaLon > 0 then
           2 * pi - deltaLon
@@ -283,16 +283,16 @@ rhumbDistance ( lat1, lon1 ) ( lat2, lon2 ) unit =
         deltaLon
 
     projectedLatDelta =
-      ln ((tan (lat2' / 2 + pi / 4)) / tan (lat1' / 2 + pi / 4))
+      ln ((tan (lat2_ / 2 + pi / 4)) / tan (lat1_ / 2 + pi / 4))
 
     q =
       if abs projectedLatDelta > 1.0e-11 then
         deltaLat / projectedLatDelta
       else
-        cos lat1'
+        cos lat1_
 
     a =
-      sqrt (deltaLat * deltaLat + q * q * deltaLon' * deltaLon')
+      sqrt (deltaLat * deltaLat + q * q * deltaLon_ * deltaLon_)
   in
     a * radius
 
@@ -302,16 +302,16 @@ rhumbDistance ( lat1, lon1 ) ( lat2, lon2 ) unit =
 rhumbBearing : Coordinate -> Coordinate -> Float
 rhumbBearing ( lat1, lon1 ) ( lat2, lon2 ) =
   let
-    lat1' =
+    lat1_ =
       toRadians lat1
 
-    lat2' =
+    lat2_ =
       toRadians lat2
 
     deltaLon =
       toRadians (lon2 - lon1)
 
-    deltaLon' =
+    deltaLon_ =
       if abs deltaLon > pi then
         if deltaLon > 0 then
           negate (2 * pi - deltaLon)
@@ -321,12 +321,12 @@ rhumbBearing ( lat1, lon1 ) ( lat2, lon2 ) =
         deltaLon
 
     deltaPsi =
-      ln ((tan (lat2' / 2 + pi / 4)) / (tan (lat1' / 2 + pi / 4)))
+      ln ((tan (lat2_ / 2 + pi / 4)) / (tan (lat1_ / 2 + pi / 4)))
 
     theta =
-      atan2 deltaLon' deltaPsi
+      atan2 deltaLon_ deltaPsi
   in
-    ((toDegrees theta) + 360) `floatMod` 360
+    floatMod ((toDegrees theta) + 360) 360
 
 
 {-| Half-way point along a rhumb line
@@ -334,42 +334,42 @@ rhumbBearing ( lat1, lon1 ) ( lat2, lon2 ) =
 rhumbMidpoint : Coordinate -> Coordinate -> Coordinate
 rhumbMidpoint ( lat1, lon1 ) ( lat2, lon2 ) =
   let
-    lat1' =
+    lat1_ =
       toRadians lat1
 
-    lat2' =
+    lat2_ =
       toRadians lat2
 
-    lon1' =
+    lon1_ =
       toRadians lon1
 
-    lon2' =
+    lon2_ =
       toRadians lon2
 
-    lon1'' =
-      if abs (lon2' - lon1') > pi then
-        lon1' + 2 * pi
+    lon1__ =
+      if abs (lon2_ - lon1_) > pi then
+        lon1_ + 2 * pi
       else
-        lon1'
+        lon1_
 
     lat3 =
-      (lat1' + lat2') / 2
+      (lat1_ + lat2_) / 2
 
     f1 =
-      tan (pi / 4 + lat1' / 2)
+      tan (pi / 4 + lat1_ / 2)
 
     f2 =
-      tan (pi / 4 + lat2' / 2)
+      tan (pi / 4 + lat2_ / 2)
 
     f3 =
       tan (pi / 4 + lat3 / 2)
 
     lon3 =
-      ((lon2' - lon1'') * ln f3 + lon1'' * ln f2 - lon2' * ln f1) / (ln (f2 / f1))
+      ((lon2_ - lon1__) * ln f3 + lon1__ * ln f2 - lon2_ * ln f1) / (ln (f2 / f1))
 
-    lon3' =
+    lon3_ =
       if (not << isFinite) lon3 then
-        (lon1'' + lon2') / 2
+        (lon1__ + lon2_) / 2
       else
         lon3
 
@@ -377,6 +377,6 @@ rhumbMidpoint ( lat1, lon1 ) ( lat2, lon2 ) =
       toDegrees lat3
 
     lon3Degrees =
-      (floatMod ((toDegrees lon3') + 540) 360) - 180
+      (floatMod ((toDegrees lon3_) + 540) 360) - 180
   in
     ( lat3Degrees, lon3Degrees )
