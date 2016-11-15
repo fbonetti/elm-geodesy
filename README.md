@@ -1,4 +1,4 @@
-# elm-geodesy
+# elm-geodesy [![Build Status](https://travis-ci.org/fbonetti/elm-geodesy.svg?branch=master)](https://travis-ci.org/fbonetti/elm-geodesy)
 
 Calculate bearing and distance in Elm.
 
@@ -12,7 +12,3 @@ You can view the original Javascript code on [Github](https://raw.githubusercont
 
 Pull requests and issues are greatly appreciated! If you find any weird bugs or
 edge cases, please let me know.
-
-## To do
-
-- [ ] Run tests on Travis.
