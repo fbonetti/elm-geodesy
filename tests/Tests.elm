@@ -1,8 +1,9 @@
 module Tests exposing (all)
 
+import Expect
 import Geodesy exposing (..)
 import Test exposing (..)
-import Expect
+
 
 
 -- Suite
@@ -24,19 +25,19 @@ chicagoToNycTests : Test
 chicagoToNycTests =
     describe "Chicago to NYC"
         [ test "Distance from Chicago to NYC" <|
-            \() -> (Expect.equal 1144.2995483233492 distanceChicagoToNyc)
+            \() -> Expect.equal 1144.2995483233492 distanceChicagoToNyc
         , test "Initial bearing from Chicago to NYC" <|
-            \() -> (Expect.equal 91.95668081107792 initialBearingFromChicagoToNyc)
+            \() -> Expect.equal 91.95668081107792 initialBearingFromChicagoToNyc
         , test "Final bearing from Chicago to NYC" <|
-            \() -> (Expect.equal 100.97208853162614 finalBearingFromChicagoToNyc)
+            \() -> Expect.equal 100.97208853162614 finalBearingFromChicagoToNyc
         , test "Midpoint from Chicago to NYC" <|
-            \() -> (Expect.equal ( 41.49677823440974, -80.75671256248268 ) midpointFromChicagoToNyc)
+            \() -> Expect.equal ( 41.49677823440974, -80.75671256248268 ) midpointFromChicagoToNyc
         , test "Rhumb line distance from Chicago to NYC" <|
-            \() -> (Expect.equal 1145.4782975112635 rhumbDistanceChicagoToNyc)
+            \() -> Expect.equal 1145.4782975112635 rhumbDistanceChicagoToNyc
         , test "Rhumb bearing from Chicago to NYC" <|
-            \() -> (Expect.equal 96.49514816731596 rhumbBearingChicagoToNyc)
+            \() -> Expect.equal 96.49514816731596 rhumbBearingChicagoToNyc
         , test "Rhumb midpoint from Chicago to NYC" <|
-            \() -> (Expect.equal ( 41.295449999999995, -80.78742529339144 ) rhumbMidpointChicagoToNyc)
+            \() -> Expect.equal ( 41.295449999999995, -80.78742529339144 ) rhumbMidpointChicagoToNyc
         ]
 
 
@@ -93,19 +94,19 @@ londonToHongKongTests : Test
 londonToHongKongTests =
     describe "London to Hong Kong"
         [ test "Distance from London to Hong Kong" <|
-            \() -> (Expect.equal 9597.482581330738 distanceLondonToHongKong)
+            \() -> Expect.equal 9597.482581330738 distanceLondonToHongKong
         , test "Initial bearing from London to Hong Kong" <|
-            \() -> (Expect.equal 57.83403659833477 initialBearingFromLondonToHongKong)
+            \() -> Expect.equal 57.83403659833477 initialBearingFromLondonToHongKong
         , test "Final bearing from London to Hong Kong" <|
-            \() -> (Expect.equal 145.25926589781778 finalBearingFromLondonToHongKong)
+            \() -> Expect.equal 145.25926589781778 finalBearingFromLondonToHongKong
         , test "Midpoint from London to Hong Kong" <|
-            \() -> (Expect.equal ( 52.90244252102981, 73.85262787435465 ) midpointFromLondonToHongKong)
+            \() -> Expect.equal ( 52.90244252102981, 73.85262787435465 ) midpointFromLondonToHongKong
         , test "Rhumb line distance from London to Hong Kong" <|
-            \() -> (Expect.equal 10407.501859178768 rhumbDistanceLondonToHongKong)
+            \() -> Expect.equal 10407.501859178768 rhumbDistanceLondonToHongKong
         , test "Rhumb bearing from London to Hong Kong" <|
-            \() -> (Expect.equal 108.12102559904315 rhumbBearingLondonToHongKong)
+            \() -> Expect.equal 108.12102559904315 rhumbBearingLondonToHongKong
         , test "Rhumb midpoint from London to Hong Kong" <|
-            \() -> (Expect.equal ( 36.9519, 62.68985625326832 ) rhumbMidpointLondonToHongKong)
+            \() -> Expect.equal ( 36.9519, 62.68985625326832 ) rhumbMidpointLondonToHongKong
         ]
 
 
